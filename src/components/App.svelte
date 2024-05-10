@@ -1,9 +1,12 @@
 <script>
     import ToDo from '../components/ToDo.svelte';
     import Graph from '../components/Graph.svelte';
-
+    import parseData from '../components/loadData.svelte';
+    
     let placeholder = "What do you need to do? (category - task)";
     let todo_text = "";
+
+    let data = [];
 
     let todo_category = [
         { id: 0, text: "Study - Learn D3", completed: false, category: "study" },
