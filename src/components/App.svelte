@@ -1,85 +1,31 @@
 <script>
     import ToDo from '../components/ToDo.svelte';
     import Graph from '../components/Graph.svelte';
-    import parseData from '../components/loadData.svelte';
+    import { onMount } from 'svelte';
+    import Papa from 'papaparse';
+
+    let stockData = [];
+    let loading = true;
     
-    let placeholder = "What do you need to do? (category - task)";
-    let todo_text = "";
-
-    let data = [];
-
-    let todo_category = [
-        { id: 0, text: "Study - Learn D3", completed: false, category: "study" },
-        { id: 1, text: "Fun - Prepare for camping trip ", completed: false, category: "fun"  },
-    ];
-
-    let todo_record = [];
-    let todo_len = 0;
-    let todo_names = [];
-
-    $: {
-        todo_len = todo_category.length;
-        
-        // add the new todo and aggregate the current todo list
-        // store them as an object and append it to the todo_record array
-        if (todo_record.length == 0 || todo_len !== todo_record[todo_record.length-1].size) {
-            todo_names = todo_category
-                .map((todo) => todo.text)
-                .reduce((names_as_string, new_todo)=> names_as_string + new_todo + ", ", "");
-            todo_record.push(
-                {
-                    index: todo_record.length+1,
-                    size: todo_len,
-                    names: todo_names.slice(0,todo_names.length-2)
-                }
-            )
-        }
-
-        // mutating an array doesn' trigger interactivity
-        // therefore, we need to assign it again 
-        // to manually update the Graph component
-        todo_record = todo_record; 
-    }
-
-    let next_id = 2;
-
-    function add() {
-        todo_category = todo_category.concat({
-            id: next_id,
-            text: todo_text,
-            completed: false,
-            category: todo_text.includes("-") ? todo_text.split("-")[0].trim().toLowerCase() : "other"
-        });
-        next_id = next_id + 1;
-        todo_text = "";
-    }
-
-    function removeTodo(id) {
-		todo_category = todo_category.filter((todo) => todo.id !== id);
-	}
+    onMount(async () => {
+        const response = await fetch('Coca-Cola_stock_history.csv');
+        const csvData = await response.text();
+        stockData = Papa.parse(csvData, { header: true }).data;
+        loading = false;
+    });
 </script>
-
+{#if loading}
+    <h2>Loading...</h2>
+{:else}
 <main>
-
-    <section class="todos">
-        <h1>todos</h1>
-        <form on:submit|preventDefault={add}>
-            <input {placeholder} bind:value={todo_text} />
-        </form>
-
-        {#each todo_category as todo (todo.id)}
-            <ToDo bind:todo={todo} {removeTodo}/>
-        {/each}
-
-        <div class="actions" />
-    </section>
-
     <section class="graph">
-        <h2 style="margin-top: 15px">todo pie</h2>
-        <Graph bind:todo_category={todo_category}/>
+        <h2 style="margin-top: 15px">Visualization</h2>
+        
+        <Graph bind:parsedData={stockData}/>
     </section>
-
 </main>
+{/if}
+
 
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap");
