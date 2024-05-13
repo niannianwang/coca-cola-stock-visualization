@@ -6,10 +6,10 @@
     let stockData = [];
     let loading = true;
     let svgElement;
-    let marginLeft = 30;
-    let marginRight = 20;
+    let marginLeft = 100;
+    let marginRight = 80;
     let marginTop = 20;
-    let marginBottom = 20;
+    let marginBottom = 100;
 
     onMount(async () => {
         const response = await fetch('Coca-Cola_stock_history.csv');
@@ -32,8 +32,8 @@
     function createLineGraph(desiredType) {
         /*const svg = d3.select('svg');*/
         const svg = d3.select(svgElement);
-        const width = 500;
-        const height = 300;
+        const width = 1000;
+        const height = 600;
 
         // Define the scales
         const xScale = d3
@@ -76,7 +76,7 @@
         // Append x-axis title
         graph
             .append('text')
-            .attr('transform', `translate(${width / 2}, ${height + marginBottom})`) // Position at the middle of the x-axis
+            .attr('transform', `translate(${width / 2}, ${height - 25})`) // Position at the middle of the x-axis
             .style('text-anchor', 'middle') // Center the text
             .text('Year');
 
@@ -84,11 +84,11 @@
         graph
             .append('text')
             .attr('transform', 'rotate(-90)') // Rotate the text
-            .attr('y', -25) // Position at the start of the y-axis
+            .attr('y', -10) // Position at the start of the y-axis
             .attr('x', 0 - (height / 2)) // Position at the middle of the y-axis
             .attr('dy', '1em') // Adjust the position
             .style('text-anchor', 'middle') // Center the text
-            .text('Y testing');
+            .text('Price (USD)');
 
         // Append graph title
         graph
@@ -143,7 +143,7 @@
     <input type="radio" name = "graphType" id="showLowGraphCheckbox" on:click={showLowGraph}>Show Low Graph
     <input type="radio" name = "graphType" id="showCloseGraphCheckbox" on:click={showCloseGraph}>Show Close Graph
     <div class="graph-container">
-        <svg bind:this={svgElement} width="600" height="400"></svg>
+        <svg bind:this={svgElement} width="1000" height="600"></svg>
     </div>
 </main>
 {/if}
