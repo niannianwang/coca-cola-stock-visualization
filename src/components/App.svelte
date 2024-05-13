@@ -44,6 +44,8 @@
         
         // Append the line to the SVG
         // error here
+        // Clear existing content
+        svg.selectAll("*").remove();
         svg
             .append('path')
             .datum(stockData)
@@ -56,7 +58,13 @@
             );
     }
     function showOpenGraph() {
-        return createLineGraph('Open');
+        if (document.getElementById("showOpenGraphCheckbox").checked) {
+            createLineGraph('Open');
+        } else {
+            // Clear the graph
+            d3.select(svgElement).selectAll("*").remove();
+        }
+        // return createLineGraph('Open');
     }
 </script>
 
@@ -64,12 +72,16 @@
     <h2>Loading...</h2>
 {:else}
 <main>
-    <input type="checkbox" on:click={showOpenGraph}>Show Open Graph
-    <!-- <button on:click={() => createLineGraph('desiredType')}>Change Line Graph</button> -->
-    <svg bind:this={svgElement} width="600" height="400"></svg>
+    <input type="checkbox" id="showOpenGraphCheckbox" on:click={showOpenGraph}>Show Open Graph
+    <div class="graph-container">
+        <svg bind:this={svgElement} width="600" height="400"></svg>
+    </div>
 </main>
 {/if}
 
 <style>
     /* Styles omitted for brevity */
+    .graph-container {
+        margin-top: 20px; /* Adjust this value as needed */
+    }
 </style>
