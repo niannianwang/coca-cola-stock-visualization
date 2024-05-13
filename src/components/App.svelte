@@ -5,7 +5,8 @@
 
     let stockData = [];
     let loading = true;
-    
+    let svgElement;
+
     onMount(async () => {
         const response = await fetch('Coca-Cola_stock_history.csv');
         const csvData = await response.text();
@@ -25,7 +26,8 @@
     });
 
     function createLineGraph(desiredType) {
-        const svg = d3.select('svg');
+        /*const svg = d3.select('svg');*/
+        const svg = d3.select(svgElement);
         const width = 500;
         const height = 300;
 
@@ -64,7 +66,7 @@
 <main>
     <input type="checkbox" on:click={showOpenGraph}>Show Open Graph
     <!-- <button on:click={() => createLineGraph('desiredType')}>Change Line Graph</button> -->
-    <svg></svg>
+    <svg bind:this={svgElement} width="600" height="400"></svg>
 </main>
 {/if}
 
