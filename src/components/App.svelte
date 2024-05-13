@@ -137,10 +137,11 @@
     <h2>Loading...</h2>
 {:else}
 <main>
-    <input type="checkbox" id="showOpenGraphCheckbox" on:click={showOpenGraph}>Show Open Graph
-    <input type="checkbox" id="showHighGraphCheckbox" on:click={showHighGraph}>Show High Graph
-    <input type="checkbox" id="showLowGraphCheckbox" on:click={showLowGraph}>Show Low Graph
-    <input type="checkbox" id="showCloseGraphCheckbox" on:click={showCloseGraph}>Show Close Graph
+    <h1>Coca Cola Stock Trend 1962-2022</h1>
+    <input type="radio" name = "graphType" id="showOpenGraphCheckbox" on:click={showOpenGraph}>Show Open Graph
+    <input type="radio" name = "graphType" id="showHighGraphCheckbox" on:click={showHighGraph}>Show High Graph
+    <input type="radio" name = "graphType" id="showLowGraphCheckbox" on:click={showLowGraph}>Show Low Graph
+    <input type="radio" name = "graphType" id="showCloseGraphCheckbox" on:click={showCloseGraph}>Show Close Graph
     <div class="graph-container">
         <svg bind:this={svgElement} width="600" height="400"></svg>
     </div>
