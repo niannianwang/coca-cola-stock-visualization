@@ -32,7 +32,7 @@
     function createLineGraph(desiredType) {
         /*const svg = d3.select('svg');*/
         const svg = d3.select(svgElement);
-        const width = 1000;
+        const width = 800;
         const height = 600;
 
         // Define the scales
@@ -57,8 +57,8 @@
             .append('path')
             .datum(stockData)
             .attr('fill', 'none')
-            .attr('stroke', 'steelblue')
-            .attr('stroke-width', 2)
+            .attr('stroke', 'red')
+            .attr('stroke-width', 1)
             .attr('d', d3.line()
                 .x(d => xScale(d.Date))
                 .y(d => yScale(+d[desiredType]))
@@ -95,10 +95,59 @@
             .append('text')
             .attr('transform', `translate(${width / 2}, ${marginTop})`) // Position at the top center
             .style('text-anchor', 'middle') // Center the text
-            .style('font-size', '20px') // Set the font size
+            .style('font-size', '50px') // Set the font size
             .style('font-weight', 'bold') // Set the font weight
             .text(`${desiredType} Graph`);
+            const tooltip = graph.append('g')
+    .attr('class', 'tooltip')
+    .style('display', 'none');
+
+tooltip.append('rect')
+
+    .attr('height', 30)
+    .attr('fill', 'white')
+    .style('opacity', 2);
+
+tooltip.append('text')
+    .attr('x', 50)
+    .attr('y', 15)
+    .attr('dy', '0.35em')
+    .style('text-anchor', 'middle')
+    .attr('dy', '0.5em')
+    .attr('font-size', '10px')
+    .attr('fill', 'black');
+
+// Append mouseover event to show tooltip
+graph.selectAll('path')
+    .on('mouseover', function(event, d) {
+        const mouseX = d3.pointer(event)[0];
+        const mouseY = d3.pointer(event)[1];
+       
+        const xDate = xScale.invert(mouseX);
+        const yValue = yScale.invert(mouseY);
+
+
+    
+
+
+        
+        tooltip.attr('transform', `translate(${mouseX}, ${mouseY})`)
+            .style('display', 'block');
+        
+        tooltip.select('text')
+            .text(`${desiredType}: ${yValue.toFixed(2)} on ${d3.timeFormat('%Y-%m-%d')(xDate)}`);
+    })
+    .on('mouseout', function() {
+        tooltip.style('display', 'none');
+    });
+        
+
+        
     }
+    
+
+
+
     function showOpenGraph() {
         if (document.getElementById("showOpenGraphCheckbox").checked) {
             createLineGraph('Open');
@@ -149,8 +198,12 @@
 {/if}
 
 <style>
+    main {
+    text-align: center; /* Center align the main title */
+    }
+
     /* Styles omitted for brevity */
     .graph-container {
-        margin-top: 20px; /* Adjust this value as needed */
+        margin-top: 50px; /* Adjust this value as needed */
     }
 </style>
