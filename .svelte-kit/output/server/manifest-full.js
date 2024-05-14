@@ -10,7 +10,7 @@ return {
 	assets: new Set(["Coca-Cola_stock_history.csv","favicon.png"]),
 	mimeTypes: {".csv":"text/csv",".png":"image/png"},
 	_: {
-		client: {"start":"_app/immutable/entry/start.8d49b207.js","app":"_app/immutable/entry/app.d8e406b2.js","imports":["_app/immutable/entry/start.8d49b207.js","_app/immutable/chunks/index.867448f4.js","_app/immutable/chunks/singletons.42e20b12.js","_app/immutable/entry/app.d8e406b2.js","_app/immutable/chunks/index.867448f4.js"],"stylesheets":[],"fonts":[]},
+		client: {"start":"_app/immutable/entry/start.46b669af.js","app":"_app/immutable/entry/app.a825ff0e.js","imports":["_app/immutable/entry/start.46b669af.js","_app/immutable/chunks/index.867448f4.js","_app/immutable/chunks/singletons.6c895703.js","_app/immutable/entry/app.a825ff0e.js","_app/immutable/chunks/index.867448f4.js"],"stylesheets":[],"fonts":[]},
 		nodes: [
 			__memo(() => import('./nodes/0.js')),
 			__memo(() => import('./nodes/1.js')),
